@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Compress PDF files in your browser. 100% local, your files never leave your browser." />
+  <meta name="theme-color" content="#08090a" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- iOS web app -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="PDF Compressor" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <title>PDF Compressor — Compress your PDF files</title>
+
+  <link rel="stylesheet" href="/styles/main.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header__logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="32" height="32" rx="8" fill="#5e6ad2"/>
+          <path d="M10 12H22V20H10V12Z" stroke="white" stroke-width="2" fill="none"/>
+          <path d="M14 16L18 16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <path d="M16 14L16 18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="1.5" fill="white"/>
+          <path d="M8 22C8 22 9 24 12 24C15 24 16 22 16 22C16 22 17 24 20 24C23 24 24 22 24 22" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <h1>PDF Compressor</h1>
+      </div>
+      <p class="header__tagline" data-i18n="header.tagline">Compress PDF files in your browser</p>
+      <span class="badge" data-i18n="header.badge">🔒 100% local — your files never leave your browser</span>
+      <!-- Language selector created dynamically by i18n.js -->
+    </header>
+
+    <!-- Drop zone -->
+    <section class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload PDF files">
+      <div class="dropzone__inner">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M32 44V20M32 20L22 30M32 20L42 30" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="8" y="8" width="48" height="48" rx="12" stroke="currentColor" stroke-width="3"/>
+          <path d="M22 48L32 44L42 48" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h2 data-i18n="dropzone.title">Drop your PDF here</h2>
+        <p data-i18n="dropzone.subtitle">or click to select files (multiple PDFs supported)</p>
+        <input type="file" id="file-input" accept=".pdf,application/pdf" multiple class="file-input-hidden" aria-label="Select PDF files" />
+      </div>
+    </section>
+
+    <!-- Workspace -->
+    <section class="workspace" id="workspace" hidden>
+      <!-- Left: File list -->
+      <div class="workspace__preview">
+        <div class="workspace__preview-header">
+          <span class="filename" id="filename" data-i18n="workspace.files">Uploaded files</span>
+          <button class="btn btn--ghost" id="btn-reset" title="Start over" aria-label="Reset and start over">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M14 4L4 14M4 4L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="workspace__preview-area" id="file-list" role="list" aria-label="Uploaded PDF files">
+          <!-- File cards generated dynamically -->
+        </div>
+        <!-- Progress bar -->
+        <div class="progress-container" id="progress-container" hidden>
+          <div class="progress-label">
+            <span id="progress-text" data-i18n="progress.compressing">Compressing...</span>
+            <span id="progress-percent">0%</span>
+          </div>
+          <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Compression progress">
+            <div class="progress-bar__fill" id="progress-fill"></div>
+          </div>
+        </div>
+        <!-- Results preview -->
+        <div class="results-container" id="results-container" hidden>
+          <div class="result-card" id="result-card">
+            <div class="result-info">
+              <span class="result-label" data-i18n="result.originalSize">Original size:</span>
+              <span class="result-value" id="original-size">-</span>
+            </div>
+            <div class="result-info">
+              <span class="result-label" data-i18n="result.compressedSize">Compressed size:</span>
+              <span class="result-value compressed" id="compressed-size">-</span>
+            </div>
+            <div class="result-info savings" id="savings-info">
+              <span class="result-label" data-i18n="result.savings">Saved:</span>
+              <span class="result-value savings-value" id="savings-value">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Controls -->
+      <div class="controls">
+        <!-- Compression level -->
+        <div class="control-group">
+          <h3 class="control-group__title" data-i18n="controls.compressionLevel" tabindex="0" role="button" aria-expanded="true">
+            <span data-i18n="controls.compressionLevel">Compression level</span>
+            <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </h3>
+          <div class="control-group__body">
+            <div class="seg-control" role="radiogroup" aria-label="Compression level">
+              <button class="seg-btn active" data-quality="low" role="radio" aria-checked="true" tabindex="0">
+                <span data-i18n="quality.low">Low — Best compression</span>
+              </button>
+              <button class="seg-btn" data-quality="medium" role="radio" aria-checked="false" tabindex="-1">
+                <span data-i18n="quality.medium">Medium — Balanced</span>
+              </button>
+              <button class="seg-btn" data-quality="high" role="radio" aria-checked="false" tabindex="-1">
+                <span data-i18n="quality.high">High — Best quality</span>
+              </button>
+            </div>
+            <p class="control-hint" data-i18n="controls.hint">
+              Low: Maximum compression, some quality loss. Medium: Good balance. High: Minimal compression, best quality.
+            </p>
+          </div>
+        </div>
+
+        <!-- Compress action -->
+        <div class="control-group">
+          <h3 class="control-group__title" tabindex="0" role="button" aria-expanded="true">
+            <span>Action</span>
+            <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </h3>
+          <div class="control-group__body">
+            <button class="btn btn--primary" id="btn-compress" disabled aria-label="Compress PDF files">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M5 3V8M13 3V8M5 8V15L9 13L13 15V8M5 8H13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+              <span data-i18n="btn.compress">Compress PDF</span>
+            </button>
+
+            <button class="btn btn--primary" id="btn-download" hidden aria-label="Download compressed PDF">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M9 3V13M9 13L5 9M9 13L13 9M5 15H13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+              <span data-i18n="btn.download">Download compressed PDF</span>
+            </button>
+
+            <div class="file-stat" id="file-stat">
+              <span class="stat-label" data-i18n="controls.files">Files:</span>
+              <span class="stat-value" id="file-count">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- File management -->
+        <div class="control-group">
+          <h3 class="control-group__title" tabindex="0" role="button" aria-expanded="true">
+            <span>Management</span>
+            <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </h3>
+          <div class="control-group__body">
+            <button class="btn btn--secondary" id="btn-add-more" aria-label="Add more PDF files">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M9 3V15M3 9H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span data-i18n="btn.addMore">Add more files</span>
+            </button>
+
+            <button class="btn btn--ghost" id="btn-reset-all" aria-label="Remove all files and start over">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M3 5H15M7 5V3H11V5M5 5L6 15H12L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+              <span data-i18n="btn.reset">Reset</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__links">
+        <a href="https://github.com/Hichiro6/pdf-compressor" target="_blank" rel="noopener noreferrer" data-i18n="privacy.link">View on GitHub</a>
+        <span class="footer__separator">·</span>
+        <a href="https://buymeacoffee.com/hichiro" target="_blank" rel="noopener noreferrer" class="footer__bmc">☕ <span data-i18n="footer.bmc">Buy me a coffee</span></a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Screen reader announcements -->
+  <div id="sr-live" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

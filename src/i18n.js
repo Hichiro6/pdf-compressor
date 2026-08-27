@@ -49,6 +49,12 @@ export const TRANSLATIONS = {
     'result.savings': 'Saved:',
     'lang.label': 'Language',
     'compress.resultName': 'compressed_{timestamp}',
+    'workspace.files': 'Uploaded files',
+    'controls.hint': 'Low: Maximum compression, some quality loss. Medium: Good balance. High: Minimal compression, best quality.',
+    'controls.files': 'Files:',
+    'btn.addMore': 'Add more files',
+    'btn.resetAll': 'Reset',
+    'progress.compressing': 'Compressing...',
   },
 
   fr: {
@@ -77,6 +83,12 @@ export const TRANSLATIONS = {
     'result.savings': 'Économie :',
     'lang.label': 'Langue',
     'compress.resultName': 'compresse_{timestamp}',
+    'workspace.files': 'Fichiers importés',
+    'controls.hint': 'Faible : Compression maximale, perte de qualité. Moyenne : Bon équilibre. Élevée : Compression minimale, meilleure qualité.',
+    'controls.files': 'Fichiers :',
+    'btn.addMore': 'Ajouter des fichiers',
+    'btn.resetAll': 'Réinitialiser',
+    'progress.compressing': 'Compression...',
   },
 
   de: {
@@ -105,6 +117,12 @@ export const TRANSLATIONS = {
     'result.savings': 'Eingespart:',
     'lang.label': 'Sprache',
     'compress.resultName': 'komprimiert_{timestamp}',
+    'workspace.files': 'Hochgeladene Dateien',
+    'controls.hint': 'Niedrig: Maximale Komprimierung, etwas Qualitätsverlust. Mittel: Gute Balance. Hoch: Minimale Komprimierung, beste Qualität.',
+    'controls.files': 'Dateien:',
+    'btn.addMore': 'Weitere Dateien hinzufügen',
+    'btn.resetAll': 'Zurücksetzen',
+    'progress.compressing': 'Komprimiere...',
   },
 
   es: {
@@ -133,6 +151,12 @@ export const TRANSLATIONS = {
     'result.savings': 'Ahorro:',
     'lang.label': 'Idioma',
     'compress.resultName': 'comprimido_{timestamp}',
+    'workspace.files': 'Archivos subidos',
+    'controls.hint': 'Baja: Compresión máxima, algo de pérdida de calidad. Media: Buen equilibrio. Alta: Compresión mínima, mejor calidad.',
+    'controls.files': 'Archivos:',
+    'btn.addMore': 'Añadir más archivos',
+    'btn.resetAll': 'Reiniciar',
+    'progress.compressing': 'Comprimiendo...',
   },
 
   pt: {
@@ -161,6 +185,12 @@ export const TRANSLATIONS = {
     'result.savings': 'Economia:',
     'lang.label': 'Idioma',
     'compress.resultName': 'comprimido_{timestamp}',
+    'workspace.files': 'Arquivos carregados',
+    'controls.hint': 'Baixa: Compressão máxima, alguma perda de qualidade. Média: Bom equilíbrio. Alta: Compressão mínima, melhor qualidade.',
+    'controls.files': 'Arquivos:',
+    'btn.addMore': 'Adicionar mais arquivos',
+    'btn.resetAll': 'Redefinir',
+    'progress.compressing': 'Comprimindo...',
   },
 
   nl: {
@@ -189,6 +219,12 @@ export const TRANSLATIONS = {
     'result.savings': 'Bespaard:',
     'lang.label': 'Taal',
     'compress.resultName': 'gecomprimeerd_{timestamp}',
+    'workspace.files': 'Geüploade bestanden',
+    'controls.hint': 'Laag: Maximale compressie, wat kwaliteitsverlies. Gemiddeld: Goede balans. Hoog: Minimale compressie, beste kwaliteit.',
+    'controls.files': 'Bestanden:',
+    'btn.addMore': 'Meer bestanden toevoegen',
+    'btn.resetAll': 'Opnieuw',
+    'progress.compressing': 'Bezig met comprimeren...',
   },
 
   it: {
@@ -217,6 +253,12 @@ export const TRANSLATIONS = {
     'result.savings': 'Risparmiato:',
     'lang.label': 'Lingua',
     'compress.resultName': 'compresso_{timestamp}',
+    'workspace.files': 'File caricati',
+    'controls.hint': 'Bassa: Compressione massima, qualche perdita di qualità. Media: Buon equilibrio. Alta: Compressione minima, migliore qualità.',
+    'controls.files': 'File:',
+    'btn.addMore': 'Aggiungi altri file',
+    'btn.resetAll': 'Ripristina',
+    'progress.compressing': 'Compressione in corso...',
   },
 };
 
