@@ -1,47 +1,163 @@
 # PDF Compressor
 
-> Compress PDF files in your browser. 100% local, your files never leave your browser.
+> Reduce PDF file size in your browser — 100% client-side, privacy-first
 
-## Features
+<div align="center">
 
-- **Smart compression** — Detects image-heavy PDFs (Apple Notes exports, scanned documents) and recompresses embedded images
-- **Three quality levels** — Low (minimal loss), Medium (balanced), High (maximum reduction)
-- **Batch processing** — Compress multiple PDFs at once
-- **ZIP download** — Download all compressed files as a single archive
-- **Privacy-first** — No backend, no uploads, no tracking. Everything happens in your browser.
+![License](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-red)
+![Platform](https://img.shields.io/badge/Platform-Web-green)
+![Tests](https://img.shields.io/badge/Tests-Playwright%20%7C%20Vitest-blue)
 
-## Use Cases
+**Your files never leave your browser — no uploads, no servers, no tracking**
 
-- **Apple Notes PDFs** — Exported notes with images are often huge. Compress them for email attachments.
-- **Scanned documents** — Reduce scanned PDF sizes without losing readability.
-- **Email attachments** — Get PDFs under email size limits.
+</div>
 
-## Tech Stack
+---
 
-- [pdf-lib](https://pdf-lib.js.org/) — PDF manipulation
-- [pdfjs-dist](https://mozilla.github.io/pdf.js/) — PDF rendering and analysis
-- [fflate](https://github.com/101arrowz/fflate) — ZIP compression
-- [Vite](https://vitejs.dev/) — Build tooling
+## 🔒 Privacy-First Design
 
-## Development
+PDF file too large to email or upload? Need to optimize a scanned document for the web?
+
+PDF Compressor shrinks your PDFs **locally in your browser** using [pdf-lib](https://pdf-lib.js.org/). It detects image-heavy pages (like Apple Notes exports or scanned documents) and re-encodes embedded images at the quality level you choose. Your files stay on your device — nothing is uploaded to any server.
+
+---
+
+## ⚡ Key Features
+
+- **🔒 100% Local Processing** — All operations happen in your browser
+- **🧠 Smart Compression** — Detects image-heavy PDFs (scanned docs, Apple Notes) and targets embedded images
+- **🎚️ Three Quality Levels** — Low (smallest), Medium (balanced), High (best quality)
+- **📦 Batch Processing** — Compress multiple PDFs at once
+- **📥 ZIP Download** — Download all compressed PDFs as a single ZIP archive (via [fflate](https://github.com/101arrowz/fflate))
+- **📊 File Size Comparison** — See original vs. compressed sizes at a glance
+- **🌍 Multi-Language** — Supports EN, FR, DE, ES, PT, NL, IT
+- **♿ Accessible** — Full keyboard navigation and screen reader support (ARIA-compliant)
+
+---
+
+## 🚀 Quick Start
 
 ```bash
+git clone https://github.com/Hichiro6/pdf-compressor.git
+cd pdf-compressor
+
 npm install
 npm run dev
 ```
 
-## Build
+---
+
+## 📖 Usage Guide
+
+### Step 1: Upload Your PDF(s)
+Drag and drop one or more PDF files onto the dropzone, or click to browse.
+
+### Step 2: Choose a Compression Level
+- **Low** — Maximum compression (smallest file, reduced image quality)
+- **Medium** — Balanced file size and quality (recommended)
+- **High** — Minimal compression (best quality, moderate size reduction)
+
+### Step 3: Compress & Download
+Click **Compress** to process your files.
+Compare original vs. compressed sizes.
+Download individual PDFs or all as a ZIP archive.
+
+---
+
+## 🛠️ Technical Stack
+
+| Technology | Purpose |
+|------------|---------|
+| **[Vite](https://vitejs.dev/)** | Build tool & dev server |
+| **[pdf-lib](https://pdf-lib.js.org/)** | PDF parsing & re-encoding |
+| **[fflate](https://github.com/101arrowz/fflate)** | ZIP compression for bulk downloads |
+| **[Biome](https://biomejs.dev/)** | Linting & formatting |
+| **[Vitest](https://vitest.dev/)** | Unit testing |
+| **[Playwright](https://playwright.dev/)** | E2E testing |
+
+---
+
+## 🧪 Testing
 
 ```bash
-npm run build
+npm run test:run       # Unit tests
+npm run test:e2e       # E2E suite (upload, controls, compression, multi-file, i18n, a11y)
+npm run test:ui        # Interactive mode
 ```
 
-## Testing
+---
 
-```bash
-npm run test:run
+## 📂 Project Structure
+
+```
+pdf-compressor/
+├── src/
+│   ├── main.js           # Application logic
+│   └── i18n.js           # Internationalization
+├── styles/
+│   └── main.css          # Global styles
+├── public/
+│   ├── manifest.json     # PWA manifest
+│   └── favicon.svg
+├── tests/
+│   ├── unit/             # Unit tests
+│   └── e2e/              # Playwright E2E tests + fixtures
+├── DEV_PLAN.md            # Development plan & roadmap
+├── vite.config.js        # Vite configuration
+├── playwright.config.js  # Playwright configuration
+└── biome.json            # Biome linting rules
 ```
 
-## License
+---
 
-CC-BY-NC-ND-4.0
+## 🔧 Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm run lint` | Check code with Biome |
+| `npm run format` | Format code with Biome |
+| `npm run test:run` | Run unit tests |
+| `npm run test:e2e` | Run E2E tests |
+
+---
+
+## 📝 Use Cases
+
+- **Email attachments** — Shrink PDFs to meet attachment size limits
+- **Web uploads** — Optimize scanned documents for online forms
+- **Apple Notes exports** — Compress image-heavy PDFs generated by iOS/macOS Notes
+- **Archive optimization** — Reduce storage footprint of document archives
+- **Sharing** — Make large reports easier to send via messaging apps
+
+---
+
+## 🔐 Security & Privacy
+
+- ✅ **No network calls** — All processing is local
+- ✅ **No analytics** — No tracking or telemetry
+- ✅ **No cookies** — Nothing stored externally
+- ✅ **Open source** — Code is auditable
+- ✅ **Client-side only** — No backend requirements
+
+---
+
+## 📄 License
+
+Copyright © 2026 Hichiro6
+
+Licensed under **CC BY-NC-ND 4.0** — Non-commercial use with attribution, no derivative works.
+
+See [LICENSE](LICENSE) for details.
+
+---
+
+<div align="center">
+
+**Made with ❤️ for privacy-conscious users**
+
+[Report Bug](https://github.com/Hichiro6/pdf-compressor/issues) · [Request Feature](https://github.com/Hichiro6/pdf-compressor/issues)
+
+</div>
