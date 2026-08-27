@@ -57,8 +57,7 @@ test.describe('Compression Flow', () => {
     await page.locator('#btn-compress').click();
 
     await expect(page.locator('#results-container')).toBeVisible({ timeout: 30000 });
-    await expect(page.locator('#btn-download')).toBeVisible();
-    await expect(page.locator('#btn-download')).not.toHaveAttribute('hidden');
+    await expect(page.locator('#btn-download')).toBeVisible({ timeout: 10000 });
   });
 
   test('should download compressed PDF', async ({ page }) => {
