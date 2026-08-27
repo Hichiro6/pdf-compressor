@@ -1,7 +1,7 @@
 {
   "name": "pdf-compressor",
-  "version": "1.0.0",
-  "description": "Security watermark for administrative documents — 100% client-side",
+  "version": "0.1.0",
+  "description": "Compress PDF files in your browser. 100% local, your files never leave your browser.",
   "type": "module",
   "license": "CC-BY-NC-ND-4.0",
   "scripts": {
