@@ -54,7 +54,7 @@ export const TRANSLATIONS = {
     'controls.files': 'Files:',
     'btn.addMore': 'Add more files',
     'btn.resetAll': 'Reset',
-    'progress.compressing': 'Compressing...',
+    'progress.done': 'Compression complete. Saved {ratio}%',
   },
 
   fr: {
@@ -88,7 +88,7 @@ export const TRANSLATIONS = {
     'controls.files': 'Fichiers :',
     'btn.addMore': 'Ajouter des fichiers',
     'btn.resetAll': 'Réinitialiser',
-    'progress.compressing': 'Compression...',
+    'progress.done': 'Compression terminée. Économie de {ratio}%',
   },
 
   de: {
@@ -122,7 +122,7 @@ export const TRANSLATIONS = {
     'controls.files': 'Dateien:',
     'btn.addMore': 'Weitere Dateien hinzufügen',
     'btn.resetAll': 'Zurücksetzen',
-    'progress.compressing': 'Komprimiere...',
+    'progress.done': 'Komprimierung abgeschlossen. {ratio} eingespart',
   },
 
   es: {
@@ -156,7 +156,7 @@ export const TRANSLATIONS = {
     'controls.files': 'Archivos:',
     'btn.addMore': 'Añadir más archivos',
     'btn.resetAll': 'Reiniciar',
-    'progress.compressing': 'Comprimiendo...',
+    'progress.done': 'Compresión completa. Ahorro de {ratio}%',
   },
 
   pt: {
@@ -190,7 +190,7 @@ export const TRANSLATIONS = {
     'controls.files': 'Arquivos:',
     'btn.addMore': 'Adicionar mais arquivos',
     'btn.resetAll': 'Redefinir',
-    'progress.compressing': 'Comprimindo...',
+    'progress.done': 'Compressão concluída. Economia de {ratio}%',
   },
 
   nl: {
@@ -224,7 +224,7 @@ export const TRANSLATIONS = {
     'controls.files': 'Bestanden:',
     'btn.addMore': 'Meer bestanden toevoegen',
     'btn.resetAll': 'Opnieuw',
-    'progress.compressing': 'Bezig met comprimeren...',
+    'progress.done': 'Comprimeren voltooid. {ratio} bespaard',
   },
 
   it: {
@@ -258,7 +258,7 @@ export const TRANSLATIONS = {
     'controls.files': 'File:',
     'btn.addMore': 'Aggiungi altri file',
     'btn.resetAll': 'Ripristina',
-    'progress.compressing': 'Compressione in corso...',
+    'progress.done': 'Compressione completata. Risparmio del {ratio}%',
   },
 };
 

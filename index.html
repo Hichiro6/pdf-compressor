@@ -6,18 +6,27 @@
   <meta name="description" content="Compress PDF files in your browser. 100% local, your files never leave your browser." />
   <meta name="theme-color" content="#08090a" />
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;510;590;700&display=swap" rel="stylesheet" />
+
   <!-- PWA -->
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
 
   <!-- iOS web app -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="PDF Compressor" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
   <title>PDF Compressor — Compress your PDF files</title>
 
-  <link rel="stylesheet" href="/styles/main.css" />
+  <!-- Preload and load Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;510;590;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles/main.css" />
 </head>
 <body>
   <div class="app">
@@ -188,6 +197,6 @@
   <!-- Screen reader announcements -->
   <div id="sr-live" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"></div>
 
-  <script type="module" src="/src/main.js"></script>
+  <script type="module" src="./src/main.js"></script>
 </body>
 </html>

@@ -1,16 +1,16 @@
 /**
- * PDF Compressor — Design System Unifié (WaterMark charte)
+ * PDF Compressor — Design System (WaterMark charte)
  * Adapted for accessibility (young and elderly users)
  * 
  * - High contrast (ratio > 4.5:1)
- * - Larger typography (base 18px)
- * - Touch targets ≥ 44px (WCAG)
+ * - Larger typography (base 18px, Inter font)
+ * - Touch targets ≥ 48px (WCAG AA)
  * - Generous spacing
- * - Native dark mode
+ * - Dark mode default, light mode opt-in
  */
 
 :root {
-  /* Palette Linear — Dark mode */
+  /* Palette Linear — Dark mode (default) */
   --bg-marketing: #08090a;
   --bg-panel: #0f1011;
   --bg-surface: #191a1b;
@@ -42,6 +42,8 @@
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-pill: 9999px;
+
+  color-scheme: dark;
 }
 
 @media (prefers-color-scheme: light) {
@@ -59,6 +61,8 @@
     --border-subtle: rgba(0,0,0,0.08);
     --border-standard: rgba(0,0,0,0.12);
     --border-prominent: #d0d6e0;
+    
+    color-scheme: light;
   }
 }
 
@@ -75,7 +79,7 @@ html {
 }
 
 body {
-  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background: var(--bg-marketing);
   color: var(--text-primary);
   line-height: var(--line-height-relaxed);
@@ -484,14 +488,14 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .color-btn {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   border: 3px solid transparent;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
 }
 
 .color-btn:hover {
@@ -567,6 +571,7 @@ input[type="range"]::-moz-range-thumb {
   transition: all 0.2s ease;
   font-family: inherit;
   min-height: var(--touch-target-min);
+  white-space: nowrap;
 }
 
 .btn--primary {
@@ -590,6 +595,12 @@ input[type="range"]::-moz-range-thumb {
 .btn--ghost:hover {
   color: var(--text-primary);
   background: rgba(255,255,255,0.06);
+}
+
+.btn--sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  min-height: var(--touch-target-min);
 }
 
 .btn:disabled {
@@ -760,7 +771,7 @@ input[type="range"]::-moz-range-thumb {
   font-family: inherit;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-height: 44px;
+  min-height: var(--touch-target-min);
   display: inline-flex;
   align-items: center;
 }
@@ -784,8 +795,8 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   padding: 0.25rem 0.5rem;
   margin: 0.75rem auto 0;
-  background: var(--surface-elevated);
-  border-radius: 8px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
   width: fit-content;
 }
@@ -794,13 +805,13 @@ input[type="range"]::-moz-range-thumb {
   background: transparent;
   border: none;
   padding: 0.375rem 0.5rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 1.125rem;
   cursor: pointer;
   transition: all 0.15s ease;
   opacity: 0.6;
-  min-width: 36px;
-  min-height: 36px;
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -808,7 +819,7 @@ input[type="range"]::-moz-range-thumb {
 
 .lang-btn:hover {
   opacity: 0.85;
-  background: var(--surface-hover);
+  background: var(--bg-surface);
 }
 
 .lang-btn.active {
@@ -819,9 +830,11 @@ input[type="range"]::-moz-range-thumb {
 
 /* ===== Footer ===== */
 .footer {
-  text-align: center;
-  padding: 1.5rem 1rem;
   margin-top: auto;
+  padding: 1.5rem clamp(1.5rem, 3vw, 2rem);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-panel);
+  text-align: center;
 }
 
 .footer__privacy {
@@ -835,83 +848,38 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .footer__links {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .footer__links a {
-  color: var(--text-secondary);
+  color: var(--brand-accent);
   text-decoration: none;
-  font-size: 0.9rem;
   transition: color 0.2s ease;
 }
 
 .footer__links a:hover {
-  color: var(--brand-accent);
+  color: var(--brand-hover);
   text-decoration: underline;
 }
 
-.footer__separator {
-  color: var(--text-tertiary);
-  font-size: 0.9rem;
+.footer__bmc {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .footer__bmc:hover {
   color: #ff813f !important;
 }
 
-/* ===== Language Selector ===== */
-.lang-selector {
-  display: inline-flex;
-  gap: 0.25rem;
-  margin-top: 1rem;
-  padding: 0.25rem;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-standard);
-  border-radius: var(--radius-pill);
-}
-
-.lang-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  min-width: 44px;
-  min-height: 44px;
-  border: none;
-  background: none;
-  border-radius: var(--radius-pill);
-  font-size: 1.25rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  opacity: 0.6;
-}
-
-.lang-btn:hover {
-  opacity: 1;
-  background: rgba(255,255,255,0.05);
-}
-
-.lang-btn.active {
-  opacity: 1;
-  background: var(--brand-indigo);
-}
-
-/* ===== File Input Hidden ===== */
-.file-input-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  white-space: nowrap;
-  border: 0;
+.footer__separator {
+  color: var(--text-quaternary);
 }
 
 /* ===== File List (PDF Cards) ===== */
@@ -974,8 +942,8 @@ input[type="range"]::-moz-range-thumb {
 
 .file-card__remove {
   flex-shrink: 0;
-  width: 36px;
-  height: 36px;
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -985,8 +953,8 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-tertiary);
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
 }
 
 .file-card__remove:hover {
@@ -1145,34 +1113,7 @@ input[type="range"]::-moz-range-thumb {
   height: 20px;
 }
 
-/* ===== Buttons ===== */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1.5rem;
-  border-radius: var(--radius-md);
-  font-size: 1rem;
-  font-weight: 510;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-height: var(--touch-target-min);
-  border: none;
-  white-space: nowrap;
-}
-
-.btn--primary {
-  background: var(--brand-indigo);
-  color: white;
-}
-
-.btn--primary:hover:not(:disabled) {
-  background: var(--brand-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(94, 106, 210, 0.3);
-}
-
+/* ===== Buttons — additional variants ===== */
 .btn--secondary {
   background: var(--bg-surface);
   color: var(--text-primary);
@@ -1184,26 +1125,8 @@ input[type="range"]::-moz-range-thumb {
   border-color: var(--border-prominent);
 }
 
-.btn--ghost {
-  background: transparent;
-  color: var(--text-tertiary);
-  padding: 0.5rem;
-  min-width: 40px;
-}
-
-.btn--ghost:hover:not(:disabled) {
-  color: var(--text-primary);
-  background: rgba(255,255,255,0.05);
-}
-
 .btn--full-width {
   width: 100%;
-}
-
-.btn--sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  min-height: 36px;
 }
 
 .btn--lg {
@@ -1240,45 +1163,19 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-primary);
 }
 
-/* ===== Footer ===== */
-.footer {
-  margin-top: auto;
-  padding: 1.5rem clamp(1.5rem, 3vw, 2rem);
-  border-top: 1px solid var(--border-subtle);
-  background: var(--bg-panel);
-  text-align: center;
-}
-
-.footer__links {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.9rem;
-  color: var(--text-tertiary);
-}
-
-.footer__links a {
-  color: var(--brand-accent);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.footer__links a:hover {
-  color: var(--brand-hover);
-  text-decoration: underline;
-}
-
-.footer__bmc {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.footer__separator {
-  color: var(--text-quaternary);
-}
-
 /* ===== Utility Classes ===== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .hidden {
   display: none !important;
 }

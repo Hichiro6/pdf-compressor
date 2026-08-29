@@ -23,6 +23,7 @@ const btnReset = document.getElementById('btn-reset');
 const btnResetAll = document.getElementById('btn-reset-all');
 const btnAddMore = document.getElementById('btn-add-more');
 const progressContainer = document.getElementById('progress-container');
+const progressBar = document.getElementById('progress-bar');
 const progressFill = document.getElementById('progress-fill');
 const progressPercent = document.getElementById('progress-percent');
 const progressText = document.getElementById('progress-text');
@@ -32,6 +33,7 @@ const compressedSizeEl = document.getElementById('compressed-size');
 const savingsValueEl = document.getElementById('savings-value');
 const fileStat = document.getElementById('file-stat');
 const fileCountEl = document.getElementById('file-count');
+const srLiveEl = document.getElementById('sr-live');
 
 // ===== Utility Functions =====
 function formatBytes(bytes) {
@@ -48,9 +50,9 @@ function generateTimestamp() {
 }
 
 function getFileFromUrl(url, name) {
+  // Client-side only: fetch from local blob URLs
   return fetch(url).then(r => r.blob()).then(blob => {
-    const file = new File([blob], name, { type: 'application/pdf' });
-    return file;
+    return new File([blob], name, { type: 'application/pdf' });
   });
 }
 
@@ -111,6 +113,7 @@ function showProgress(show = true) {
     progressFill.style.width = '0%';
     progressPercent.textContent = '0%';
     progressText.textContent = t('progress.compressing');
+    progressBar.setAttribute('aria-valuenow', '0');
   }
 }
 
@@ -118,7 +121,7 @@ function updateProgress(percent) {
   const pct = Math.min(100, Math.max(0, percent));
   progressFill.style.width = `${pct}%`;
   progressPercent.textContent = `${Math.round(pct)}%`;
-  progressFill.setAttribute('aria-valuenow', Math.round(pct));
+  progressBar.setAttribute('aria-valuenow', String(Math.round(pct)));
 }
 
 function showResults(originalSize, compressedSize) {
@@ -127,8 +130,10 @@ function showResults(originalSize, compressedSize) {
   compressedSizeEl.textContent = formatBytes(compressedSize);
   
   const savings = originalSize - compressedSize;
-  const savingsPercent = ((savings / originalSize) * 100).toFixed(1);
+  const savingsPercent = originalSize > 0 ? ((savings / originalSize) * 100).toFixed(1) : '0.0';
   savingsValueEl.textContent = `-${formatBytes(savings)} (${savingsPercent}%)`;
+  
+  srLiveEl.textContent = t('progress.done', { ratio: savingsPercent });
 }
 
 function hideResults() {
@@ -170,6 +175,10 @@ function handleFiles(files) {
 
 function removeFile(index) {
   if (isCompressing) return;
+  // Revoke any existing object URL to prevent memory leak
+  if (uploadedFiles[index]?.compressed?.url) {
+    URL.revokeObjectURL(uploadedFiles[index].compressed.url);
+  }
   uploadedFiles.splice(index, 1);
   renderFileList();
   if (uploadedFiles.length === 0) {
@@ -179,6 +188,12 @@ function removeFile(index) {
 
 function resetAll() {
   if (isCompressing) return;
+  // Revoke all object URLs to prevent memory leaks
+  uploadedFiles.forEach(f => {
+    if (f.compressed?.url) {
+      URL.revokeObjectURL(f.compressed.url);
+    }
+  });
   uploadedFiles = [];
   fileInput.value = '';
   hideResults();
@@ -234,6 +249,14 @@ async function compressPDF(pdfBytes, quality) {
 async function compressFiles() {
   if (uploadedFiles.length === 0 || isCompressing) return;
   
+  // Revoke any previous compression Object URLs to prevent memory leaks
+  uploadedFiles.forEach(f => {
+    if (f.compressed?.url) {
+      URL.revokeObjectURL(f.compressed.url);
+      delete f.compressed;
+    }
+  });
+  
   isCompressing = true;
   btnCompress.disabled = true;
   btnDownload.hidden = true;
@@ -284,21 +307,28 @@ async function compressFiles() {
     updateProgress(100);
     progressText.textContent = 'Done!';
     
-    // Enable download button
-    btnDownload.hidden = false;
-    btnDownload.onclick = () => {
-      // Download the last compressed file or all files
-      const lastFile = uploadedFiles[uploadedFiles.length - 1];
-      if (lastFile.compressed) {
-        const a = document.createElement('a');
-        a.href = lastFile.compressed.url;
-        a.download = lastFile.compressed.name;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(lastFile.compressed.url);
-      }
+    // Set up download handler with screen reader announcement
+    const compressedFile = uploadedFiles[uploadedFiles.length - 1].compressed;
+    const downloadHandler = () => {
+      if (!compressedFile) return;
+      const a = document.createElement('a');
+      a.href = compressedFile.url;
+      a.download = compressedFile.name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      // Revoke URL after download (not immediately in case download is delayed)
+      setTimeout(() => {
+        URL.revokeObjectURL(compressedFile.url);
+      }, 5000);
+      
+      // Announce to screen readers
+      srLiveEl.textContent = `Download started for ${compressedFile.name}`;
+      setTimeout(() => { srLiveEl.textContent = ''; }, 3000);
     };
+    
+    btnDownload.hidden = false;
+    btnDownload.onclick = downloadHandler;
     
     isCompressing = false;
     
@@ -307,7 +337,7 @@ async function compressFiles() {
     progressText.textContent = t('alerts.error', { msg: err.message });
     isCompressing = false;
     btnCompress.disabled = false;
-    alert(t('alerts.error', { msg: err.message }));
+    srLiveEl.textContent = t('alerts.error', { msg: err.message });
   }
 }
 
@@ -346,30 +376,53 @@ function initEventListeners() {
     handleFiles(e.dataTransfer.files);
   });
   
-  // Quality selection buttons
-  document.querySelectorAll('.seg-btn').forEach(btn => {
+  // Quality selection buttons (radiogroup with keyboard navigation)
+  const segBtns = document.querySelectorAll('.seg-btn');
+  segBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       if (isCompressing) return;
-      
-      document.querySelectorAll('.seg-btn').forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-checked', 'false');
-        b.setAttribute('tabindex', '-1');
-      });
-      
-      btn.classList.add('active');
-      btn.setAttribute('aria-checked', 'true');
-      btn.setAttribute('tabindex', '0');
-      
-      selectedQuality = btn.dataset.quality;
+      selectQuality(btn);
     });
   });
+  
+  // Arrow key navigation for radiogroup (WCAG 2.1 AA)
+  segBtns.forEach((btn, idx) => {
+    btn.addEventListener('keydown', (e) => {
+      if (isCompressing) return;
+      let targetIdx = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        targetIdx = (idx + 1) % segBtns.length;
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        targetIdx = (idx - 1 + segBtns.length) % segBtns.length;
+      }
+      if (targetIdx !== null) {
+        segBtns[targetIdx].focus();
+        selectQuality(segBtns[targetIdx]);
+      }
+    });
+  });
+  
+  function selectQuality(btn) {
+    document.querySelectorAll('.seg-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-checked', 'false');
+      b.setAttribute('tabindex', '-1');
+    });
+    
+    btn.classList.add('active');
+    btn.setAttribute('aria-checked', 'true');
+    btn.setAttribute('tabindex', '0');
+    
+    selectedQuality = btn.dataset.quality;
+  }
   
   // Compress button
   btnCompress?.addEventListener('click', compressFiles);
   
   // Download button
-  btnDownload?.addEventListener('click', () => {}); // Set dynamically
+  // Handler is set dynamically after compression completes
   
   // Reset buttons
   btnReset?.addEventListener('click', resetAll);
@@ -378,14 +431,23 @@ function initEventListeners() {
   // Add more files button
   btnAddMore?.addEventListener('click', addMoreFiles);
   
-  // Control group toggle
+  // Control group toggle (click + keyboard)
   document.querySelectorAll('.control-group__title').forEach(title => {
-    title.addEventListener('click', () => {
+    const toggleGroup = () => {
       const body = title.nextElementSibling;
+      if (!body) return;
       const expanded = title.getAttribute('aria-expanded') === 'true';
       
       title.setAttribute('aria-expanded', String(!expanded));
       body.classList.toggle('collapsed', expanded);
+    };
+    
+    title.addEventListener('click', toggleGroup);
+    title.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleGroup();
+      }
     });
   });
 }
