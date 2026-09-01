@@ -50,11 +50,13 @@ export const TRANSLATIONS = {
     'lang.label': 'Language',
     'compress.resultName': 'compressed_{timestamp}',
     'workspace.files': 'Uploaded files',
-    'controls.hint': 'Low: Maximum compression, some quality loss. Medium: Good balance. High: Minimal compression, best quality.',
+    'controls.hint':
+      'Low: Maximum compression, some quality loss. Medium: Good balance. High: Minimal compression, best quality.',
     'controls.files': 'Files:',
     'btn.addMore': 'Add more files',
     'btn.resetAll': 'Reset',
     'progress.done': 'Compression complete. Saved {ratio}%',
+    'sr.downloadStarted': 'Download started for {name}',
   },
 
   fr: {
@@ -84,11 +86,13 @@ export const TRANSLATIONS = {
     'lang.label': 'Langue',
     'compress.resultName': 'compresse_{timestamp}',
     'workspace.files': 'Fichiers importés',
-    'controls.hint': 'Faible : Compression maximale, perte de qualité. Moyenne : Bon équilibre. Élevée : Compression minimale, meilleure qualité.',
+    'controls.hint':
+      'Faible : Compression maximale, perte de qualité. Moyenne : Bon équilibre. Élevée : Compression minimale, meilleure qualité.',
     'controls.files': 'Fichiers :',
     'btn.addMore': 'Ajouter des fichiers',
     'btn.resetAll': 'Réinitialiser',
     'progress.done': 'Compression terminée. Économie de {ratio}%',
+    'sr.downloadStarted': 'Téléchargement lancé pour {name}',
   },
 
   de: {
@@ -118,11 +122,13 @@ export const TRANSLATIONS = {
     'lang.label': 'Sprache',
     'compress.resultName': 'komprimiert_{timestamp}',
     'workspace.files': 'Hochgeladene Dateien',
-    'controls.hint': 'Niedrig: Maximale Komprimierung, etwas Qualitätsverlust. Mittel: Gute Balance. Hoch: Minimale Komprimierung, beste Qualität.',
+    'controls.hint':
+      'Niedrig: Maximale Komprimierung, etwas Qualitätsverlust. Mittel: Gute Balance. Hoch: Minimale Komprimierung, beste Qualität.',
     'controls.files': 'Dateien:',
     'btn.addMore': 'Weitere Dateien hinzufügen',
     'btn.resetAll': 'Zurücksetzen',
     'progress.done': 'Komprimierung abgeschlossen. {ratio} eingespart',
+    'sr.downloadStarted': 'Download gestartet für {name}',
   },
 
   es: {
@@ -152,11 +158,13 @@ export const TRANSLATIONS = {
     'lang.label': 'Idioma',
     'compress.resultName': 'comprimido_{timestamp}',
     'workspace.files': 'Archivos subidos',
-    'controls.hint': 'Baja: Compresión máxima, algo de pérdida de calidad. Media: Buen equilibrio. Alta: Compresión mínima, mejor calidad.',
+    'controls.hint':
+      'Baja: Compresión máxima, algo de pérdida de calidad. Media: Buen equilibrio. Alta: Compresión mínima, mejor calidad.',
     'controls.files': 'Archivos:',
     'btn.addMore': 'Añadir más archivos',
     'btn.resetAll': 'Reiniciar',
     'progress.done': 'Compresión completa. Ahorro de {ratio}%',
+    'sr.downloadStarted': 'Descarga iniciada para {name}',
   },
 
   pt: {
@@ -186,11 +194,13 @@ export const TRANSLATIONS = {
     'lang.label': 'Idioma',
     'compress.resultName': 'comprimido_{timestamp}',
     'workspace.files': 'Arquivos carregados',
-    'controls.hint': 'Baixa: Compressão máxima, alguma perda de qualidade. Média: Bom equilíbrio. Alta: Compressão mínima, melhor qualidade.',
+    'controls.hint':
+      'Baixa: Compressão máxima, alguma perda de qualidade. Média: Bom equilíbrio. Alta: Compressão mínima, melhor qualidade.',
     'controls.files': 'Arquivos:',
     'btn.addMore': 'Adicionar mais arquivos',
     'btn.resetAll': 'Redefinir',
     'progress.done': 'Compressão concluída. Economia de {ratio}%',
+    'sr.downloadStarted': 'Download iniciado para {name}',
   },
 
   nl: {
@@ -220,11 +230,13 @@ export const TRANSLATIONS = {
     'lang.label': 'Taal',
     'compress.resultName': 'gecomprimeerd_{timestamp}',
     'workspace.files': 'Geüploade bestanden',
-    'controls.hint': 'Laag: Maximale compressie, wat kwaliteitsverlies. Gemiddeld: Goede balans. Hoog: Minimale compressie, beste kwaliteit.',
+    'controls.hint':
+      'Laag: Maximale compressie, wat kwaliteitsverlies. Gemiddeld: Goede balans. Hoog: Minimale compressie, beste kwaliteit.',
     'controls.files': 'Bestanden:',
     'btn.addMore': 'Meer bestanden toevoegen',
     'btn.resetAll': 'Opnieuw',
     'progress.done': 'Comprimeren voltooid. {ratio} bespaard',
+    'sr.downloadStarted': 'Download gestart voor {name}',
   },
 
   it: {
@@ -254,11 +266,13 @@ export const TRANSLATIONS = {
     'lang.label': 'Lingua',
     'compress.resultName': 'compresso_{timestamp}',
     'workspace.files': 'File caricati',
-    'controls.hint': 'Bassa: Compressione massima, qualche perdita di qualità. Media: Buon equilibrio. Alta: Compressione minima, migliore qualità.',
+    'controls.hint':
+      'Bassa: Compressione massima, qualche perdita di qualità. Media: Buon equilibrio. Alta: Compressione minima, migliore qualità.',
     'controls.files': 'File:',
     'btn.addMore': 'Aggiungi altri file',
     'btn.resetAll': 'Ripristina',
     'progress.done': 'Compressione completata. Risparmio del {ratio}%',
+    'sr.downloadStarted': 'Download avviato per {name}',
   },
 };
 
@@ -335,7 +349,7 @@ export function setLanguage(lang, callback) {
 
   try {
     localStorage.setItem(STORAGE_KEY, lang);
-  } catch (e) {
+  } catch {
     // localStorage might be unavailable (private browsing)
   }
 
@@ -403,7 +417,7 @@ export function initI18n() {
 
   try {
     savedLang = localStorage.getItem(STORAGE_KEY) || 'en';
-  } catch (e) {
+  } catch {
     // localStorage unavailable
   }
 

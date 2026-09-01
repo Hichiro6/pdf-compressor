@@ -19,11 +19,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="PDF Compressor" />
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+  <link rel="mask-icon" href="./favicon.svg" color="#5e6ad2" />
   <title>PDF Compressor — Compress your PDF files</title>
 
   <!-- Preload and load Inter font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;510;590;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles/main.css" />
@@ -48,7 +47,7 @@
     </header>
 
     <!-- Drop zone -->
-    <section class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload PDF files">
+    <section class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload PDF files" data-i18n-aria-label="dropzone.title">
       <div class="dropzone__inner">
         <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M32 44V20M32 20L22 30M32 20L42 30" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -67,11 +66,11 @@
       <div class="workspace__preview">
         <div class="workspace__preview-header">
           <span class="filename" id="filename" data-i18n="workspace.files">Uploaded files</span>
-          <button class="btn btn--ghost" id="btn-reset" title="Start over" aria-label="Reset and start over">
+          <button type="button" class="btn btn--ghost" id="btn-reset" title="Start over" aria-label="Reset and start over" data-i18n-aria-label="btn.resetAll">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M14 4L4 14M4 4L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           </button>
         </div>
-        <div class="workspace__preview-area" id="file-list" role="list" aria-label="Uploaded PDF files">
+        <div class="workspace__preview-area" id="file-list" role="list" aria-label="Uploaded PDF files" data-i18n-aria-label="workspace.files">
           <!-- File cards generated dynamically -->
         </div>
         <!-- Progress bar -->
@@ -113,13 +112,13 @@
           </h3>
           <div class="control-group__body">
             <div class="seg-control" role="radiogroup" aria-label="Compression level">
-              <button class="seg-btn active" data-quality="low" role="radio" aria-checked="true" tabindex="0">
+              <button type="button" class="seg-btn active" data-quality="low" role="radio" aria-checked="true" tabindex="0">
                 <span data-i18n="quality.low">Low — Best compression</span>
               </button>
-              <button class="seg-btn" data-quality="medium" role="radio" aria-checked="false" tabindex="-1">
+              <button type="button" class="seg-btn" data-quality="medium" role="radio" aria-checked="false" tabindex="-1">
                 <span data-i18n="quality.medium">Medium — Balanced</span>
               </button>
-              <button class="seg-btn" data-quality="high" role="radio" aria-checked="false" tabindex="-1">
+              <button type="button" class="seg-btn" data-quality="high" role="radio" aria-checked="false" tabindex="-1">
                 <span data-i18n="quality.high">High — Best quality</span>
               </button>
             </div>
@@ -136,14 +135,14 @@
             <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </h3>
           <div class="control-group__body">
-            <button class="btn btn--primary" id="btn-compress" disabled aria-label="Compress PDF files">
+            <button type="button" class="btn btn--primary" id="btn-compress" disabled aria-label="Compress PDF files" data-i18n-aria-label="btn.compress">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                 <path d="M5 3V8M13 3V8M5 8V15L9 13L13 15V8M5 8H13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
               </svg>
               <span data-i18n="btn.compress">Compress PDF</span>
             </button>
 
-            <button class="btn btn--primary" id="btn-download" hidden aria-label="Download compressed PDF">
+            <button type="button" class="btn btn--primary" id="btn-download" hidden aria-label="Download compressed PDF" data-i18n-aria-label="btn.download">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                 <path d="M9 3V13M9 13L5 9M9 13L13 9M5 15H13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
               </svg>
@@ -164,14 +163,14 @@
             <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </h3>
           <div class="control-group__body">
-            <button class="btn btn--secondary" id="btn-add-more" aria-label="Add more PDF files">
+            <button type="button" class="btn btn--secondary" id="btn-add-more" aria-label="Add more PDF files" data-i18n-aria-label="btn.addMore">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                 <path d="M9 3V15M3 9H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               </svg>
               <span data-i18n="btn.addMore">Add more files</span>
             </button>
 
-            <button class="btn btn--ghost" id="btn-reset-all" aria-label="Remove all files and start over">
+            <button type="button" class="btn btn--ghost" id="btn-reset-all" aria-label="Remove all files and start over" data-i18n-aria-label="btn.resetAll">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                 <path d="M3 5H15M7 5V3H11V5M5 5L6 15H12L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
               </svg>
